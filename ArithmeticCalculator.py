@@ -21,22 +21,25 @@ import re
 #          (2+4)*(5-3)
 #          (5+(2-1)*3)+8
 # Works with whitespace input
-
+# Manages division y 0
 
 def ArithmeticCalculator():
-    expr = input("Enter an expression: ")
-    print(Calculator(expr))
-    multi_expression = input("Do you want to perform other calculation?(yes/no): ")
-    if multi_expression != "yes" or multi_expression != "Yes":
-        print("Thank you")
-        return
-    while multi_expression == "yes" or "Yes":
+    calculation = "yes"
+    while calculation == "yes":
         expr = input("Enter an expression: ")
         print(Calculator(expr))
-        multi_expression = input("Do you want to perform other calculation?(yes/no): ")
+        calculation = input("Do you want to perform other calculation?(yes/no): ")
+        if calculation != "yes":
+            print("Thank you")
+            break
+    return
+
+
+
 
 
 def Calculator(expression):
+    
     numbers_stack = ArrayStack()
     op_stack = ArrayStack()
     expression = re.split("([()+-/*])", expression.replace(" ", ""))
@@ -90,13 +93,12 @@ def operations(operator, num1, num2):
         if num2 == 0:
             print("Cannot divide by 0")
             return -1
-        return num1 / num2
+        return int(num2 / num1)
     return 0
 
 
 def main():
     ArithmeticCalculator()
-
 
 if __name__ == '__main__':
     main()
