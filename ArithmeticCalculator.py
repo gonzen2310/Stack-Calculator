@@ -39,6 +39,8 @@ def ArithmeticCalculator():
 def syntax(validexpression):
     validexpression = re.split("([()+-/*])", validexpression.replace(" ", ""))
     validexpression = [x for x in validexpression if x]
+    if len(validexpression) == 0:
+        return False
     if validexpression[0] == "+" or validexpression[0] == "-" or validexpression[0] == "*" or  validexpression[0] == "/" or validexpression[-1] == "+" or validexpression[-1] == "-" or validexpression[-1] == "*" or validexpression[-1] == "/":
         return False
 
