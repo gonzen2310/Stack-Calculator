@@ -22,6 +22,7 @@ import re
 #          (5+(2-1)*3)+8
 # Works with whitespace input
 # Manages division y 0
+# The calculator evaluates the syntax
 
 def ArithmeticCalculator():
     calculation = "yes"
@@ -35,11 +36,29 @@ def ArithmeticCalculator():
     return
 
 
+def syntax(validexpression):
+    validexpression = re.split("([()+-/*])", validexpression.replace(" ", ""))
+    validexpression = [x for x in validexpression if x]
+    if validexpression[0] == "+" or validexpression[0] == "-" or validexpression[0] == "*" or  validexpression[0] == "/" or validexpression[-1] == "+" or validexpression[-1] == "-" or validexpression[-1] == "*" or validexpression[-1] == "/":
+        return False
 
+    counter = 0
+    for i in range(len(validexpression)):
+        if validexpression[i] == "/" and validexpression[i+1] == "0":
+            return False
+        if (validexpression[i] == "+" or validexpression[i] == "-" or validexpression[i] == "*" or validexpression[i] == "/") and (validexpression[i+1] == "+" or validexpression[i+1] == "-" or validexpression[i+1] == "*" or validexpression[i+1] == "/"):
+            return False
+        if i == "(" or i == ")":
+            i += 1
+
+    if i % 2 != 0:
+        return False
+    return True
 
 
 def Calculator(expression):
-    
+    if not syntax(expression):
+        return "Syntax Error"
     numbers_stack = ArrayStack()
     op_stack = ArrayStack()
     expression = re.split("([()+-/*])", expression.replace(" ", ""))
@@ -99,6 +118,7 @@ def operations(operator, num1, num2):
 
 def main():
     ArithmeticCalculator()
+
 
 if __name__ == '__main__':
     main()
